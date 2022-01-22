@@ -5,40 +5,25 @@ import { addTransparency } from  '../../../styles/utils';
 
 import { ChartContainer } from '../styles';
 
-function Emergency() {
+function Emergency({ cases }) {
 
-    const labels = [
-        'Segunda-feira',
-        'Terça-feira',
-        'Quarta-feira',
-        'Quinta-feira',
-        'Sexta-feira',
-        'Sábado',
-        'Domingo'
-      ];
+  
+  function formatDate (input) {
+    var datePart = input.match(/\d+/g),
+    year = datePart[0].substring(2), // get only two digits
+    month = datePart[1], day = datePart[2];
+    
+    return day+'/'+month+'/'+year;
+  }
+  
+  const labels = cases.map(item => formatDate(item.date_reported.replace('-', '/'))); 
 
       const data = {
         labels: labels,
         datasets: [{
-          label: 'Aguardando atendimento',
+          label: 'Número de casos',
           backgroundColor: addTransparency(colors[0], 0.5),
-          data: [8,12,16,12,15,14,6],
-        },
-        {
-          label: 'Acolhido',
-          backgroundColor: addTransparency(colors[1], 0.5),
-          data: [16,10,1,19,18,16]
-        },
-        {
-          label: 'Observação solicitada',
-          backgroundColor: addTransparency(colors[5], 0.5),
-         
-          data: [0, 2, 0, 0, 0, 3, 2],
-        },
-        {
-          label: 'Em observação',
-          backgroundColor: addTransparency(colors[3], 0.5),
-          data: [3, 17, 6, 5, 9, 8, 6],
+          data: cases.map(item => item.cumulative_cases)
         }]
       };
 
