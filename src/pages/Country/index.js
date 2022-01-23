@@ -6,7 +6,7 @@ import dailyCases from '../../databases/daily_cases_deaths.json';
 import generalFile from '../../databases/general_count.json';
 
 import { Container, Nav, Content, RigthContent, LeftContent, LeftCard, BottomContent, BottomCard
-, BottomInternalCard, BottomCardInfo} from './styles';
+, BottomInternalCard, BottomCardInfo, CardContainer, BottomCardNumber, BottomCardDetails, VaccinationCard} from './styles';
 
 import Emergency from '../../components/Charts/Emergency';
 
@@ -29,58 +29,117 @@ function Country() {
         return result;
     });
 
+    function formatNumber(value) {
+        const stringValue = value.toString();
+
+        return stringValue.replace(/(?:(^\d{1,3})(?=(?:\d{3})*$)|(\d{3}))(?!$)/mg, '$1$2.')   
+    }
+
     return cases && general ? (
-        <Container>
-            <Nav>
-                <p><b>CO</b>ntando</p>
-                <p>Países | Comparação</p>
-            </Nav>
+        <>
+        <Nav>
+            <p><b>CO</b>ntando</p>
+            <p>Países | Comparação</p>
+        </Nav>
+        
+        <Container>    
             <Content>
                 <LeftContent>
-                        <h2>Casos atuais</h2>
+                    
+                    <CardContainer>
+                        <h2>Casos das últimas 24h</h2>
+
                         <LeftCard>
-                                <p>teste</p>
+                            <h2>{formatNumber(cases[cases.length-1].new_cases)}</h2>
                         </LeftCard>
+                    </CardContainer>
+
+                    <CardContainer>
                         <h2>Casos confirmados</h2>
+
                         <LeftCard>
-                                <p>teste</p>
+                            <h2>{formatNumber(general[0].cases_cumulative_total)}</h2>
                         </LeftCard>
-                        <h2>Casos recuperados</h2>
+                    </CardContainer>
+
+                    <CardContainer>
+                        <h2>Óbitos das últimas 24h</h2>
+
                         <LeftCard>
-                                <p>teste</p>
+                            <h2>{formatNumber(cases[cases.length-1].new_deaths)}</h2>
                         </LeftCard>
+                    </CardContainer>
+
+                    <CardContainer>
                         <h2>Óbitos confirmados</h2>
+
                         <LeftCard>
-                                <p>teste</p>
+                            <h2>{formatNumber(general[0].deaths_cumulative_total)}</h2>
                         </LeftCard>
+                    </CardContainer>
+                    
+                    
+                    
                 </LeftContent>
+
                 <RigthContent>
                     {cases != undefined && <Emergency cases={cases}></Emergency>}
                     <BottomContent>
                         <BottomCard>
-                            <p>Taxa de mortalidade</p>
-                            <BottomInternalCard>
-                                <p>teste</p>
-                                <BottomCardInfo>
-                                    
-                                </BottomCardInfo>
-                            </BottomInternalCard>
-                            
-                        </BottomCard>
-                        <BottomCard>
-                            <p>Taxa de mortalidade</p>
-                            <BottomInternalCard>
-                                <p>teste</p>
-                                <BottomCardInfo>
+                            <h2>
+                                Taxa de mortalidade
+                            </h2>
 
-                                </BottomCardInfo>
-                            </BottomInternalCard>
+                            <BottomCardNumber>
+                                <h1>230</h1>
+                            </BottomCardNumber>
+
+                            <BottomCardDetails>
+                                <span>Informa quantas pessoas estão morrendo por esta doença em uma determinada população.</span>
+                            </BottomCardDetails>    
                         </BottomCard>
+                        
+                        
+                        <BottomCard>
+                            <h2>
+                                Taxa de letalidade
+                            </h2>
+
+                            <BottomCardNumber>
+                                <h1>230</h1>
+                            </BottomCardNumber>
+
+                            <BottomCardDetails>
+                                <span>Avalia o número de mortes em relação às pessoas que apresentam a doença ativa</span>
+                            </BottomCardDetails>    
+                        </BottomCard>
+
+                        <VaccinationCard>
+                            <div>
+                                <h1>Vacinação</h1>
+
+                                <div>
+                                    <h1>74,3%</h1>
+                                    <span>(1º dose)</span>
+                                </div>
+
+                                <div>
+                                    <h1>54,43%</h1>
+                                    <span>Totalmente imunizada</span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div>
+                                    <span>Porcentagem sobre a população total do país</span>
+                                </div>
+                            </div>
+                        </VaccinationCard>
                     </BottomContent>
                 </RigthContent>
             </Content>
-            
         </Container>
+        </>
     ) : null;
 
 }

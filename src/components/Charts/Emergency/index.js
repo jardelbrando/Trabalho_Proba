@@ -22,7 +22,7 @@ function Emergency({ cases }) {
         labels: labels,
         datasets: [{
           label: 'Número de casos',
-          backgroundColor: colors[4],
+          backgroundColor: "#65c9c1",
           data: cases.map(item => item.new_cases)
         }]
       };
@@ -42,11 +42,8 @@ function Emergency({ cases }) {
             },
             responsive: true,
             scales: {
-              x: {
-                stacked: true,
-              },
               y: {
-                stacked: true
+                min: 0
               }
             }
           }
