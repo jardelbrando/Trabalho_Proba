@@ -22,8 +22,8 @@ function Emergency({ cases }) {
         labels: labels,
         datasets: [{
           label: 'Número de casos',
-          backgroundColor: addTransparency(colors[0], 0.5),
-          data: cases.map(item => item.cumulative_cases)
+          backgroundColor: colors[4],
+          data: cases.map(item => item.new_cases)
         }]
       };
 

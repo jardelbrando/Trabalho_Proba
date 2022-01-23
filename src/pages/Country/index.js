@@ -5,7 +5,8 @@ import { useParams } from "react-router-dom";
 import dailyCases from '../../databases/daily_cases_deaths.json';
 import generalFile from '../../databases/general_count.json';
 
-import { Container } from './styles';
+import { Container, Nav, Content, RigthContent, LeftContent, LeftCard, BottomContent, BottomCard
+, BottomInternalCard, BottomCardInfo} from './styles';
 
 import Emergency from '../../components/Charts/Emergency';
 
@@ -30,15 +31,55 @@ function Country() {
 
     return cases && general ? (
         <Container>
-            <h1>
-                {general.length}
-            </h1>
+            <Nav>
+                <p><b>CO</b>ntando</p>
+                <p>Países | Comparação</p>
+            </Nav>
+            <Content>
+                <LeftContent>
+                        <h2>Casos atuais</h2>
+                        <LeftCard>
+                                <p>teste</p>
+                        </LeftCard>
+                        <h2>Casos confirmados</h2>
+                        <LeftCard>
+                                <p>teste</p>
+                        </LeftCard>
+                        <h2>Casos recuperados</h2>
+                        <LeftCard>
+                                <p>teste</p>
+                        </LeftCard>
+                        <h2>Óbitos confirmados</h2>
+                        <LeftCard>
+                                <p>teste</p>
+                        </LeftCard>
+                </LeftContent>
+                <RigthContent>
+                    {cases != undefined && <Emergency cases={cases}></Emergency>}
+                    <BottomContent>
+                        <BottomCard>
+                            <p>Taxa de mortalidade</p>
+                            <BottomInternalCard>
+                                <p>teste</p>
+                                <BottomCardInfo>
+                                    
+                                </BottomCardInfo>
+                            </BottomInternalCard>
+                            
+                        </BottomCard>
+                        <BottomCard>
+                            <p>Taxa de mortalidade</p>
+                            <BottomInternalCard>
+                                <p>teste</p>
+                                <BottomCardInfo>
 
-            <h1>
-                {cases.length}
-            </h1>
-
-            {cases != undefined && <Emergency cases={cases}></Emergency>}
+                                </BottomCardInfo>
+                            </BottomInternalCard>
+                        </BottomCard>
+                    </BottomContent>
+                </RigthContent>
+            </Content>
+            
         </Container>
     ) : null;
 
