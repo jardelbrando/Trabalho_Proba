@@ -172,7 +172,7 @@ export const VaccinationCard = styled.div`
 
       > div:last-child {
         border-top: none;
-
+        
         border-radius: 0 0 8px 0;
       }
   }
@@ -193,11 +193,51 @@ export const VaccinationCard = styled.div`
       justify-content: center;
 
       text-align: center;
-
+      padding: 10px;
       border-radius: 0 8px 8px 0;
     }
   }
 `;
+
+export const FinalContent= styled.div`
+  margin-top: 50px;
+  margin-bottom: 100px;
+  height: 50vh;
+  width: 100%;
+  text-align: center;
+`;
+
+export const FinalContentCard= styled.div`
+  background-color: #65c9c1;
+  height: 100%;
+  width: 100%;
+  border: 3px solid lightgray;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: row;
+  color: white;
+`;
+
+export const FinalCard= styled.div`
+  height: 100%;
+  width: 50%;
+  border: 3px solid lightgray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+  font-size: 20px;
+`;
+
+export const Comments= styled.div`
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 50px;
+  width: 100%;
+  border: 3px solid lightgray;
+  border-radius: 5px;
+`;
+
 
 
 

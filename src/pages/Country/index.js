@@ -9,9 +9,11 @@ import vaccineFile from '../../databases/vaccination_data.json';
 import popFile from '../../databases/world_population.json';
 
 import { Container, Nav, Content, RigthContent, LeftContent, LeftCard, BottomContent, BottomCard
-, BottomInternalCard, BottomCardInfo, CardContainer, BottomCardNumber, BottomCardDetails, VaccinationCard} from './styles';
+, BottomInternalCard, BottomCardInfo, CardContainer, BottomCardNumber, BottomCardDetails, VaccinationCard,
+FinalContent, FinalContentCard, FinalCard, Comments} from './styles';
 
 import Emergency from '../../components/Charts/Emergency';
+import { compareAsc } from "date-fns";
 
 function Country() {
 
@@ -72,6 +74,35 @@ function Country() {
         return (parcialTax/generalTax).toFixed(2);
     }
 
+    function Compare1(letalityTax){
+        const globalDeathTax = generalFile[0].deaths_cumulative_total/generalFile[0].cases_cumulative_total;
+        
+        if(letalityTax < globalDeathTax){
+            return "A taxa de letalidade desse país é menor do que a taxa de letalidade global";
+        }else {
+            return "A taxa de letalidade desse país é maior do que a taxa de letalidade global.";
+        }
+    }
+    function Compare2(vacineTax){
+        
+        if(vacineTax > 0.5 && vacineTax < 1){
+            return "A taxa de vacinação completa ultrapassa a metade da população, um ótimo indicador.";
+        }else if(vacineTax < 0.5 && vacine > 0.3 ){
+            return "A taxa de vacinação completa cresce, porém ainda não é o ideal.";
+        }else if(vacineTax < 0.3 && vacine >0.25){
+            return "A taxa de vacinação está defazada para o momento atual da pandemia";
+        }else if(vacineTax < 0.25 && vacineTax > 0){
+            return "A taxa de vacinação desse país está precária";
+        }else{
+            return "Valor inválido";
+        }
+    }
+
+    function Compare3(vacineTax){
+        
+        
+    }
+
     return cases && general ? (
         <>
         <Nav>
@@ -124,57 +155,94 @@ function Country() {
                     <BottomContent>
                         <BottomCard>
                             <h2>
-                                Taxa de mortalidade
+                                Óbitos (p/milhão)
                             </h2>
 
                             <BottomCardNumber>
-                                <h1>{Tax(general[0].deaths_cumulative_total, parseInt(formatNumber2(pop[0]["2021_last_updated"]), 10))}%</h1>
+                                
+                                <h1>{(general[0].deaths_cumulative_total*1000000/formatNumber2(pop[0]["2021_last_updated"])).toFixed(0)}</h1>
                             </BottomCardNumber>
 
                             <BottomCardDetails>
-                                <span>Informa quantas pessoas estão morrendo por esta doença em uma determinada população.</span>
+                                <span>Informa a porcentagem de óbitos sobre a população total do pais.</span>
                             </BottomCardDetails>    
                         </BottomCard>
-                        
-                        
                         <BottomCard>
                             <h2>
                                 Taxa de letalidade
                             </h2>
 
                             <BottomCardNumber>
-                                <h1>{Tax(generalFile[0].deaths_cumulative_total, generalFile[0].cases_cumulative_total)}%</h1>
+                                <h1>{Tax(general[0].deaths_cumulative_total, general[0].cases_cumulative_total)}%</h1>
                             </BottomCardNumber>
 
                             <BottomCardDetails>
-                                <span>Avalia o número de mortes em relação às pessoas que apresentam a doença ativa</span>
+                                <span>Informa a porcentagem de óbitos sobre a população total infectada.</span>
                             </BottomCardDetails>    
                         </BottomCard>
+                        
+                        
+                        
 
                         <VaccinationCard>
                             <div>
                                 <h1>Vacinação</h1>
-                                <span>População: {pop[0]["2021_last_updated"]}</span>
                                 <div>
                                     <h1>{formatNumber(vacine[0].persons_vaccinated_1plus_dose)}</h1>
                                     <span>(1º dose)</span>
                                 </div>
 
                                 <div>
-                                    <h1>{formatNumber(vacine[0].total_vaccinations)}</h1>
+                                    <h1>{formatNumber(vacine[0].persons_fully_vaccinated)}</h1>
                                     <span>Totalmente imunizada</span>
                                 </div>
                             </div>
 
                             <div>
                                 <div>
-                                    <span>Porcentagem sobre a população total do país</span>
+                                    <span> População: {formatNumber(formatNumber2(pop[0]["2021_last_updated"]))}</span>
                                 </div>
                             </div>
                         </VaccinationCard>
                     </BottomContent>
                 </RigthContent>
+                
             </Content>
+            <FinalContent>
+                <h1>Comparações</h1>
+                <FinalContentCard>
+                    <FinalCard>
+                        <h1>População: 7.900.000.000</h1>
+                        <p><b>Casos globais confirmados:</b>  {formatNumber(generalFile[0].cases_cumulative_total)}</p>
+                        <p><b>Casos globais nas últimas 24 horas:</b>  {formatNumber(generalFile[0].cases_newly_inlast24h)}</p>
+                        <p><b>Casos globais nos últimos 7 dias:</b>  {formatNumber(generalFile[0].cases_newly_inlast7days)}</p>
+                        <p><b> Mortes globais:</b>  {formatNumber(generalFile[0].deaths_cumulative_total)}</p>
+                        <p><b> Mortes globais nas últimas 24 horas:</b>  {formatNumber(generalFile[0].deaths_newly_in24h)}</p>
+                        <p><b> Mortes globais nas últimas 24 horas:</b>  {formatNumber(generalFile[0].deaths_newly_inlast7days)}</p>
+                        <p><b> Mortes globais por milhão:</b>  {(generalFile[0].deaths_cumulative_total*1/7900).toFixed(0)}</p>
+                        <p><b> Taxa de letalidade:</b>  {Tax(generalFile[0].deaths_cumulative_total, generalFile[0].cases_cumulative_total)}%</p> 
+                    </FinalCard>
+                    <FinalCard>
+                        <h1>População: {formatNumber(formatNumber2(pop[0]["2021_last_updated"]))}</h1>
+                        <p><b>Casos confirmados neste país:</b>  {formatNumber(general[0].cases_cumulative_total)}</p>
+                        <p><b>Casos nas últimas 24 horas neste país:</b>  {formatNumber(general[0].cases_newly_inlast24h)}</p>
+                        <p><b>Casos nos últimos 7 dias neste país:</b>  {formatNumber(general[0].cases_newly_inlast7days)}</p>
+                        <p><b> Mortes neste país:</b>  {formatNumber(general[0].deaths_cumulative_total)}</p>
+                        <p><b> Mortes nas últimas 24 horas neste país:</b>  {formatNumber(general[0].deaths_newly_in24h)}</p>
+                        <p><b> Mortes nas últimas 24 horas neste país:</b>  {formatNumber(general[0].deaths_newly_inlast7days)}</p>
+                        <p><b> Mortes por milhão neste país:</b>  {(general[0].deaths_cumulative_total*1000000/formatNumber2(pop[0]["2021_last_updated"])).toFixed(0)}</p>
+                        <p><b> Taxa de letalidade:</b>  {Tax(general[0].deaths_cumulative_total, general[0].cases_cumulative_total)}%</p>
+                        <p><b> Vacinação com primeira dose neste país:</b>  {Tax(vacine[0].persons_vaccinated_1plus_dose, parseInt(formatNumber2(pop[0]["2021_last_updated"])), 10)}%</p>
+                        <p><b> Vacinação completa neste país:</b>  {Tax(vacine[0].persons_fully_vaccinated, parseInt(formatNumber2(pop[0]["2021_last_updated"])), 10)}%</p>
+                    </FinalCard>
+                </FinalContentCard>
+                
+            </FinalContent>
+            <h1>Comentários e conclusões</h1>
+            <Comments>
+                    <p>{Compare1(general[0].deaths_cumulative_total/general[0].cases_cumulative_total)}</p>
+                    <p>{Compare2(vacine[0].persons_fully_vaccinated/formatNumber2(pop[0]["2021_last_updated"]))}</p>
+            </Comments>
         </Container>
         </>
     ) : null;
