@@ -28,7 +28,7 @@ function Country() {
     
         return result;
     });
-
+    
     const [general, setGeneral] = useState(() => {
         const result = generalFile.filter(element => {
             return element.name.toUpperCase() == country.toUpperCase();
