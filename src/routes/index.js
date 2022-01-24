@@ -4,12 +4,6 @@ import CustomRoute from './Route';
 
 import Dashboard from '../pages/Dashboard';
 import Country from '../pages/Country';
-import PatientOverviewHospitalization from '../pages/PatientOverview/Hospitalizations';
-import PatientOverviewEmergencies from '../pages/PatientOverview/Emergencies';
-import Patients from '../pages/Patients';
-import SignIn from '../pages/SignIn';
-import SignUp from '../pages/SignUp';
-
 function Routes() {
   return (
     <Switch>
