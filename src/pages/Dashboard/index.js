@@ -42,6 +42,7 @@ function Dashboard() {
 
   return (
     <Container>
+      <p>Base de dados retiradas da OMS (Organização Mundial da Saúde)</p>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">País</InputLabel>
         <Select

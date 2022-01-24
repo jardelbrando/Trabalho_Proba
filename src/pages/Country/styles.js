@@ -202,7 +202,7 @@ export const VaccinationCard = styled.div`
 export const FinalContent= styled.div`
   margin-top: 50px;
   margin-bottom: 100px;
-  height: 50vh;
+  height: 55vh;
   width: 100%;
   text-align: center;
 `;

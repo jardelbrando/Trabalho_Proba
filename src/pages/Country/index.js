@@ -37,6 +37,7 @@ function Country() {
         return result;
     });
 
+
     const [vacine, setVacine] = useState(() => {
         const result = vaccineFile.filter(element => {
             return element.country.toUpperCase() == country.toUpperCase();
@@ -86,21 +87,20 @@ function Country() {
     function Compare2(vacineTax){
         
         if(vacineTax > 0.5 && vacineTax < 1){
-            return "A taxa de vacinação completa ultrapassa a metade da população, um ótimo indicador.";
+            return "A taxa de vacinação completa ultrapassa a metade da população, um ótimo indicador que sugere queda nas mortes diárias.";
         }else if(vacineTax < 0.5 && vacine > 0.3 ){
-            return "A taxa de vacinação completa cresce, porém ainda não é o ideal.";
+            return "A taxa de vacinação completa cresce, porém ainda não é o ideal. Tende a estabilizar o número de mortes diárias";
         }else if(vacineTax < 0.3 && vacine >0.25){
-            return "A taxa de vacinação está defazada para o momento atual da pandemia";
+            return "A taxa de vacinação está defazada para o momento atual da pandemia. Ainda morrem mais pessoas do que se vacinam em 24 horas.";
         }else if(vacineTax < 0.25 && vacineTax > 0){
-            return "A taxa de vacinação desse país está precária";
+            return "A taxa de vacinação desse país está precária. Índice de mortes ainda cresce.";
         }else{
             return "Valor inválido";
         }
     }
 
-    function Compare3(vacineTax){
-        
-        
+    function Compare3(deaths){
+       
     }
 
     return cases && general ? (
@@ -212,7 +212,7 @@ function Country() {
                 <h1>Comparações</h1>
                 <FinalContentCard>
                     <FinalCard>
-                        <h1>População: 7.900.000.000</h1>
+                        <h1>População mundial: 7.900.000.000</h1>
                         <p><b>Casos globais confirmados:</b>  {formatNumber(generalFile[0].cases_cumulative_total)}</p>
                         <p><b>Casos globais nas últimas 24 horas:</b>  {formatNumber(generalFile[0].cases_newly_inlast24h)}</p>
                         <p><b>Casos globais nos últimos 7 dias:</b>  {formatNumber(generalFile[0].cases_newly_inlast7days)}</p>
@@ -223,7 +223,7 @@ function Country() {
                         <p><b> Taxa de letalidade:</b>  {Tax(generalFile[0].deaths_cumulative_total, generalFile[0].cases_cumulative_total)}%</p> 
                     </FinalCard>
                     <FinalCard>
-                        <h1>População: {formatNumber(formatNumber2(pop[0]["2021_last_updated"]))}</h1>
+                        <h1>População neste país: {formatNumber(formatNumber2(pop[0]["2021_last_updated"]))}</h1>
                         <p><b>Casos confirmados neste país:</b>  {formatNumber(general[0].cases_cumulative_total)}</p>
                         <p><b>Casos nas últimas 24 horas neste país:</b>  {formatNumber(general[0].cases_newly_inlast24h)}</p>
                         <p><b>Casos nos últimos 7 dias neste país:</b>  {formatNumber(general[0].cases_newly_inlast7days)}</p>
@@ -242,6 +242,8 @@ function Country() {
             <Comments>
                     <p>{Compare1(general[0].deaths_cumulative_total/general[0].cases_cumulative_total)}</p>
                     <p>{Compare2(vacine[0].persons_fully_vaccinated/formatNumber2(pop[0]["2021_last_updated"]))}</p>
+                    <p>As mortes desse país representam {(((general[0].deaths_cumulative_total*100)/generalFile[0].deaths_cumulative_total)).toFixed(2)}% das mortes mundiais</p>
+                    <p>Aproximadamente {((general[0].deaths_cumulative_total*100)/parseInt(formatNumber2(pop[0]["2021_last_updated"]), 10)).toFixed(2)}% da população desse país morreu de covid</p>
             </Comments>
         </Container>
         </>
